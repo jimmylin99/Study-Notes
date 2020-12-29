@@ -66,3 +66,22 @@
 
 ---
 
+# SSH
+
+1. `host` generate public and private key
+2. `host` send public key to `server` (need password to login so far; *TODO*: any other methods?)
+
+Under Windows, we do
+
+1. `ssh-keygen -t rsa -b 2048`
+
+2. `type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {IP-ADDRESS-OR-FQDN} "cat >> .ssh/authorized_keys"`
+
+* Reference: [Windows 10 OpenSSH Equivalent of "ssh-copy-id" – Christopher Hart - IT Adventures – Documenting my discoveries in the IT world (chrisjhart.com)](https://www.chrisjhart.com/Windows-10-ssh-copy-id/)
+
+Under Unix, we do 
+
+1. `ssh-keygen -t rsa -b 2048` (same as windows)
+2. `ssh-copy-id id@server`
+
+* Reference: [How to automate SSH login with password? - Server Fault](https://serverfault.com/questions/241588/how-to-automate-ssh-login-with-password)

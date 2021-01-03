@@ -59,7 +59,7 @@ typora-copy-images-to: img
 
 now `oh-my-posh3` is also configured using [Themes | Oh my Posh 3](https://ohmyposh.dev/docs/themes)
 
-Other plugins (including `z`, `sudo`, new `bucket`, new `shell`: [Windows Terminal美化+PowerShell插件配置 - DiaosSama's Blog](https://diaossama.work/2020/05/windows-terminal-powershell.html)
+**Other plugins & some important notices (e.g. proxy)** (including `z`, `sudo`, new `bucket`, new `shell`: [Windows Terminal美化+PowerShell插件配置 - DiaosSama's Blog](https://diaossama.work/2020/05/windows-terminal-powershell.html)
 
 ==-----==
 
@@ -111,3 +111,54 @@ Other plugins (including `z`, `sudo`, new `bucket`, new `shell`: [Windows Termin
 ### 目录生成器 适用于添加到Markdown
 
 `treer`: [markdown如何写出项目目录结构 - 简书 (jianshu.com)](https://www.jianshu.com/p/e38a07f824a2)
+
+### Github 访问速度慢解决方案
+
+Link: [github访问加速 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/75994966)
+
+**Search for IP Address**: [The Best IP Address, Email and Networking Tools - IPAddress.com](https://www.ipaddress.com/)
+
+[(62 封私信 / 7 条消息) git clone一个github上的仓库，太慢，经常连接失败，但是github官网流畅访问，为什么？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/27159393)
+
+* 解决DNS污染：直接配置本地host
+  * 主要配置三个域名的ip地址映射，请自行通过上述链接查询ip
+    * github.com
+    * github.global.ssl.fastly.net
+    * assets-cdn.github.com
+    * 其余域名如需要，请参考：[访问GitHub很慢的问题解决 | Bruce's Blog (a1049145827.github.io)](https://a1049145827.github.io/2018/07/31/访问GitHub很慢的问题解决/)
+* 可能依旧需要SSR服务
+  * 一般是1080端口，可以查询SSR选项
+
+* 设置git全局代理（不推荐，仅限http, https）
+
+  ```bash
+  git config --global http.proxy http://127.0.0.1:1080
+  git config --global https.proxy https://127.0.0.1:1080
+  ```
+
+  设置git全局代理（较推荐，仅针对github)
+
+  ```bash
+  git config --global http.https://github.com.proxy https://127.0.0.1:1080
+  git config --global https.https://github.com.proxy https://127.0.0.1:1080
+  ```
+
+  取消全局代理
+
+  ```bash
+  git config --global --unset http.proxy
+  git config --global --unset https.proxy
+  ```
+
+### Gvim (Not finished)
+
+Link: [Vim：gvim安装配置（windows） - 整合侠 - 博客园 (cnblogs.com)](https://www.cnblogs.com/lizm166/p/8514129.html)
+
+### Everything (A Global Search Software for Windows)
+
+Link: [voidtools](https://www.voidtools.com/zh-cn/)
+
+
+
+
+

@@ -2,9 +2,9 @@
 typora-copy-images-to: img
 ---
 
-# Study Notes
+---
 
-## Install and Configure Windows Terminal
+### Install and Configure Windows Terminal
 
 **Official Doc**: [Windows 终端概述 | Microsoft Docs](https://docs.microsoft.com/zh-cn/windows/terminal/)
 
@@ -107,3 +107,7 @@ Other plugins (including `z`, `sudo`, new `bucket`, new `shell`: [Windows Termin
   * 在Powershell 中，请使用`cmd /c mklink /J "<link>" "<target>"`, and make sure the directory of `<link>` does not exist (or say be created in advance)
   * More: `mklink /J` link directories  [Windows 中的 mklink 命令 | 始终 (liam.page)](https://liam.page/2018/12/10/mklink-in-Windows/)
     * Similar to `ln` command in Linux
+
+### 目录生成器 适用于添加到Markdown
+
+`treer`: [markdown如何写出项目目录结构 - 简书 (jianshu.com)](https://www.jianshu.com/p/e38a07f824a2)

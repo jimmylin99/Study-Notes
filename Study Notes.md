@@ -127,8 +127,9 @@ Link: [github访问加速 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/759
     * assets-cdn.github.com
     * 其余域名如需要，请参考：[访问GitHub很慢的问题解决 | Bruce's Blog (a1049145827.github.io)](https://a1049145827.github.io/2018/07/31/访问GitHub很慢的问题解决/)
 * 可能依旧需要SSR服务
-  * 一般是1080端口，可以查询SSR选项
-
+  
+* 一般是1080端口，可以查询SSR选项
+  
 * 设置git全局代理（不推荐，仅限http, https）
 
   ```bash
@@ -158,7 +159,41 @@ Link: [Vim：gvim安装配置（windows） - 整合侠 - 博客园 (cnblogs.com)
 
 Link: [voidtools](https://www.voidtools.com/zh-cn/)
 
+### Git 常用建议
 
+###### `git help`
+
+`git help <command>`
+
+* `git help -a`
+* `git help -g`
+
+###### `git branch`
+
+* `git branch -M [<oldbranch>] <newbranch>]`:  `-M` shortcut for `--move -m`, move/rename a branch and corresponding reflog(不知道这是什么)
+
+###### `git config`
+
+* `git config --global`
+
+* `git config --list`
+
+  ```bash
+  git config --global user.name <name>
+  git config --global user.email <email>
+  ```
+
+
+###### `git push`
+
+* `git push -u origin <branch name>`
+  * `-u` is equivalent to `--set-upstream`
+
+### 其它名词解释
+
+###### Blob
+
+* Binary Large OBject
 
 
 

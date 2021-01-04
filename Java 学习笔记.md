@@ -1,3 +1,7 @@
+---
+typora-copy-images-to: img
+---
+
 # Java 学习笔记
 
 ### 继承覆盖

@@ -62,11 +62,38 @@ typora-copy-images-to: img
 * 307 Temporary Redirect (类似302，但更多浏览器会符合标准，即不强制转换POST至GET)
 * 400 Bad Request
 * 401 Unauthorized (第一次响应返回401会包含用以质询的用户信息，第二次返回401说明用户认证失败)
+  * 一般伴随`WWW-Authenticate`首部
+  * `WWW-Authenticate: <type> realm=<realm>`
+    * `<type>`: Authentication type, e.g. `Basic`
+    * `<realm>`: 一个保护区域的描述，如未指定，客户端通常显示一个格式化的主机名来替代
 * 403 Forbidden
 * 404 Not Found
 * 500 Internal Server Error
 * 503 Service Unavailable
 * 状态码和实际状况可能不一致
+
+---
+
+### HTTP 首部 (HTTP Header)
+
+##### Auhorization
+
+`Authorization: <type> <credentials>`
+
+`<type>`:
+
+* `Basic`: `Base64`编码，需要与`HTTPS`一起使用，否则等效于明文传输
+* `Bearer`
+* `Digest`
+* `HOBA`
+* `Mutual`
+* `AWS4-HMAC-SHA256`
+
+---
+
+# HTTPS
+
+
 
 ---
 

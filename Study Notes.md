@@ -4,7 +4,7 @@ typora-copy-images-to: img
 
 ---
 
-### Install and Configure Windows Terminal
+### Windows Terminal
 
 **Official Doc**: [Windows 终端概述 | Microsoft Docs](https://docs.microsoft.com/zh-cn/windows/terminal/)
 
@@ -42,6 +42,17 @@ typora-copy-images-to: img
     ```
   
     
+
+#### SSH keep alive
+
+In `~/.ssh/config` file, add
+
+```bash
+Host *
+    ServerAliveInterval 40
+```
+
+
 
 #### Install `Chocolately` and `Scoop`
 
@@ -159,7 +170,57 @@ Link: [Vim：gvim安装配置（windows） - 整合侠 - 博客园 (cnblogs.com)
 
 Link: [voidtools](https://www.voidtools.com/zh-cn/)
 
+### Vim常用命令
+
+###### 跳转
+
+1. 跳到文本的**最后一行**：按“G”,即“shift+g”
+2. 跳到**最后一行**的**最后**一个字符： 先重复1的操作即按“G”，之后按“$”键，即“shift+4”。
+3. 跳到第一行的第一个字符：先按两次“g”，
+4. 跳转到当前行的第一个字符：在当前行按“0”
+
+###### 撤销
+
+`u` 撤销上一步的操作
+`Ctrl+r` 恢复上一步被撤销的操作
+
+### Python常用函数
+
+`dict.get(key, default=None)`: default 表示若找不到key则返回缺省值
+
+### Python查看运行时间
+
+###### `time.perf_counter`
+
+* 以秒为单位，参考点未定义，因而用于计算两次连续调用之间的差值
+* 具有最高分辨率的时钟，包括了在睡眠期间(sleep)和系统范围内流逝的时间
+
+### pip
+
+###### 生成requirements.txt文件
+
+```bash
+pip freeze > requirements.txt
+```
+
+###### 安装requirements.txt依赖
+
+```bash
+pip install -r requirements.txt
+```
+
+### 
+
+### 查询自己的公网ip
+
+`curl ifconfig.me`
+
 ### Git 常用建议
+
+###### `git add`
+
+* `git add -u` 更新已track的文件 (或`git add --update`)
+* `git add -A` 添加所有文件，包括新增的未track的文件
 
 ###### `git help`
 
@@ -188,6 +249,77 @@ Link: [voidtools](https://www.voidtools.com/zh-cn/)
 
 * `git push -u origin <branch name>`
   * `-u` is equivalent to `--set-upstream`
+
+###### `git reset`
+
+* 撤销add后staged的文件
+
+  ```bash
+  git reset HEAD .
+  git reset HEAD <filename>
+  ```
+
+###### `git stash`
+
+* `git stash`会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录
+
+  See: [git-stash用法小结 - Tocy - 博客园 (cnblogs.com)](https://www.cnblogs.com/tocy/p/git-stash-reference.html)
+
+###### `git log`
+
+* ```bash
+  git log --graph --all
+  ```
+
+###### `git commit`
+
+* 对最近一次commit进行修改
+
+  ```
+  git commit --amend
+  ```
+
+  [更改提交消息 - GitHub Docs](https://docs.github.com/cn/github/committing-changes-to-your-project/changing-a-commit-message)
+
+###### `git fetch`
+
+
+
+### Linux/Unix 常用命令
+
+###### `ps` and `pstree`
+
+```bash
+ps -A # 列出所有进程
+ps -e # 同上
+ps -a # 列出当前终端下的所有进程
+ps -u # 以用户为主的进程状态
+ps -f # 更完整的输出
+ps -ef
+```
+
+```bash
+pstree -p # 显示PID
+pstree -ap # 更详细
+pstree -ap | less # 显示上下文
+pstree -ap | grep <name or pid or ...>
+```
+
+See: [linux每日命令(34)：ps命令和pstree命令 - 听风。 - 博客园 (cnblogs.com)](https://www.cnblogs.com/huchong/p/10065246.html)
+
+###### `kill`
+
+* 通常，终止一个前台进程可以使用Ctrl+C键，但是，对于一个后台进程就须用kill命令来终止，我们就需要先使用ps/pidof/pstree/top等工具获取进程PID，然后使用kill命令来杀掉该进程
+
+* kill命令是通过向进程发送指定的信号来结束相应进程的。在默认情况下，采用编号为`15`的TERM信号。TERM信号将终止所有不能捕获该信号的进程。对于那些可以捕获该信号的进程就要用编号为`9`的kill信号，强行“杀掉”该进程。
+
+```bash
+kill <PID>
+kill -9 <PID> # 强制杀死进程，除了init进程
+
+```
+
+See: [每天一个linux命令（42）：kill命令 - peida - 博客园 (cnblogs.com)](https://www.cnblogs.com/peida/archive/2012/12/20/2825837.html)
 
 ### 其它名词解释
 

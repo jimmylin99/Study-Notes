@@ -285,6 +285,107 @@ pip install -r requirements.txt
 
 
 
+### apt 命令
+
+###### 更改镜像源
+
+查询版本号 `lsb_release -c`
+
+[【Ubuntu】修改Ubuntu的apt-get源为国内镜像源的方法](https://blog.csdn.net/zgljl2012/article/details/79065174)
+
+### 配置zsh
+
+[写给工程师的 Ubuntu 20.04 最佳配置指南 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/139305626)
+
+如果遇到443错误，使用国内镜像  [Ubuntu 关于ohmyzsh下载被443拒绝连接](https://blog.csdn.net/qq_35104586/article/details/103604964)
+
+* 另[Oh My Zsh, 『 443:Connection Refused 错误无法安装 』 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/264161761)
+
+### Shell
+
+###### 命令执行和搜索机制
+
+`shell`一般作为用户与内核之间的“桥梁”，通过shell命令（or程序语言）可以调用内核或使用已编译好的二进制文件（如`/bin/ls`，而这些二进制文件会通过诸如system call等方式调用内核）
+
+有许多shell解释器（或语言，因其各有对应语法），如`/bin/sh`, `/bin/bash`, `/usr/bin/zsh`
+
+###### 脚本第一行
+
+```bash
+#!/bin/bash
+```
+
+###### 变量
+
+定义时不加美元符号，变量名和等号之间不能有空格
+
+使用变量`$variable` or `${variable}`
+
+```bash
+readonly <variable> # make it const
+unset <variable> # delete it except for readonly variable
+```
+
+###### 字符串
+
+* 单引号内的任何字符都会原样输出，单引号字符串中的变量是无效的
+
+* 单引号字串中不能出现单独一个的单引号（对单引号使用转义符后也不行），但可成对出现，作为字符串拼接使用
+
+* 双引号里可以有变量，双引号里可以出现转义字符
+
+  More: [Shell 变量 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-shell-variable.html)
+
+###### 数组
+
+仅支持一维数组
+
+```bash
+array_name=(value0 value1 value2 value3)
+${数组名[下标]} # 读取
+${array_name[@]} # 所有元素
+# 取得数组元素的个数
+length=${#array_name[@]}
+# 或者
+length=${#array_name[*]}
+# 取得数组单个元素的长度
+lengthn=${#array_name[n]}
+```
+
+亦有其它定义方式，见上面的连接
+
+###### 脚本参数
+
+```bash
+$0 $1 $2 # $0为执行的文件名（含路径），后面依次为参数
+$# # 参数个数
+$$ # 脚本运行的当前PID
+```
+
+More: [Shell 传递参数 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-shell-passing-arguments.html)
+
+###### 表达式运算
+
+原生bash不支持简单的数学运算，但是可以通过其他命令来实现，例如 awk 和 expr，expr 最常用
+
+```bash
+val=`expr 2 + 2`
+```
+
+###### 中括号总结
+
+See [Shell 中的中括号用法总结 | 菜鸟教程 (runoob.com)](https://www.runoob.com/w3cnote/shell-summary-brackets.html)
+
+###### PS1 PS2
+
+命令提示符（一级和二级提示符），可以通过环境变量赋值更改`$PS1`,`$PS2`
+
+###### 流程控制语句
+
+See [Shell 流程控制 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-shell-process-control.html)
+
+
+
 ### Linux/Unix 常用命令
 
 ###### `ps` and `pstree`
@@ -320,6 +421,43 @@ kill -9 <PID> # 强制杀死进程，除了init进程
 ```
 
 See: [每天一个linux命令（42）：kill命令 - peida - 博客园 (cnblogs.com)](https://www.cnblogs.com/peida/archive/2012/12/20/2825837.html)
+
+###### `which`
+
+###### `type`
+
+```bash
+type -a
+```
+
+###### `/etc/passwd`
+
+```bash
+cat /etc/passwd
+```
+
+第六列是home directory 即`~`
+
+###### `env`
+
+列出所有环境变量
+
+###### `chmod`, `chown`, `chgrp`
+
+```bash
+chmod +x test.sh
+./test.sh
+chown username_or_uid file # set the owner of file to be certain user
+chgrp group_or_gid file # .. the group of ..
+```
+
+###### `wc`
+
+输出文件的行数、字数、字符数(byte)、文件名
+
+###### `users`, `who`, `w`
+
+了解登录到计算机的所有用户的信息
 
 ### 其它名词解释
 

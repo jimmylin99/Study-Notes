@@ -404,6 +404,8 @@ pstree -p # 显示PID
 pstree -ap # 更详细
 pstree -ap | less # 显示上下文
 pstree -ap | grep <name or pid or ...>
+
+pstree -ap $pid
 ```
 
 See: [linux每日命令(34)：ps命令和pstree命令 - 听风。 - 博客园 (cnblogs.com)](https://www.cnblogs.com/huchong/p/10065246.html)
@@ -458,6 +460,50 @@ chgrp group_or_gid file # .. the group of ..
 ###### `users`, `who`, `w`
 
 了解登录到计算机的所有用户的信息
+
+###### `grep`
+
+```bash
+grep -rnw '/path/to/somewhere' -e 'pattern'
+# -r or -R is recursive
+# -n is line number
+# -w whole word
+# -l is to just give file name of matching files
+grep -o 'pattern'
+# -o print only the matched parts of a matching line
+grep --exclude=\*.sh -rnw . -e 'pattern'
+grep --include=\*.{c,h} -rnw 'path' -e 'pattern' # only search .c / .h files
+grep --exclude-dir={dir1,dir2,*.dst} -rnw . -e 'p'
+```
+
+###### `ls`
+
+```
+ls -laihH
+```
+
+long format 具体解释：[ls -- list file and directory names and attributes (mkssoftware.com)](https://www.mkssoftware.com/docs/man1/ls.1.asp)
+
+###### `df`, `stat`
+
+```bash
+df -ih # list inode info instead of block usage
+stat file # display file or file system status
+```
+
+### Linux/Unix基本概念
+
+##### block
+
+操作系统读取磁盘时的最小单位，一般约4KB，由若干sector组成；sector是磁盘存储的最小单位，一般约512B
+
+##### inode
+
+存储文件的元信息，中文译名：索引节点；存储内容包括链接数，即有多少文件名指向该inode，文件数据block的位置，权限等信息（除了文件名）
+
+inode本身也会消耗磁盘空间，可用`df -i`查询，一般一个inode的大小为128/256字节（Byte），可用`sudo dumpe2fs -h <filesystem_like_/dev/sda5> | grep "Inode size"`
+
+
 
 ### 其它名词解释
 

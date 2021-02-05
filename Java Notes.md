@@ -149,6 +149,46 @@ typora-copy-images-to: img
 * 若类的某个成员是基本数据类型，即使没有进行初始化，Java也会确保它获得一个默认值
 * 这一机制不适用于“局部”变量，即某个方法中定义的基本类型
 
+### Minor Notification
+
+###### 整数除法直接去除小数部分
+
+###### `float`或`double`转型为整型时，总是对该数字执行截尾
+
+* 四舍五入，请使用`java.lang.Math`中的`round()`方法
+
+###### Random
+
+* `java.util.Random`
+* `Random(int seed)`
+* `Random.nextInt(int bound)` gives `[0, bound)`
+* `Random.nextFloat()` gives `[0.0, 1.0]`
+
+###### 指数计数法默认被处理为`double`类型
+
+###### Java不会自动将`int`转换为`boolean`
+
+`Java`没有`sizeof`因为所有数据类型在所有机器中的大小是相同的
+
+###### `break` and `continue` 与 标签`label`
+
+`Java`要求label恰好置于循环语句的前一行
+
+```java
+outer:
+while (true) {
+	while (true) {
+		// do something...
+		if (condition) {
+			break outer;
+		}
+	}
+}
+// continue to here after executing `break outer`
+```
+
+
+
 ---
 
 ### 继承覆盖

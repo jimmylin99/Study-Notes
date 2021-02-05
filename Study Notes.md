@@ -123,6 +123,8 @@ now `oh-my-posh3` is also configured using [Themes | Oh my Posh 3](https://ohmyp
 
 `treer`: [markdown如何写出项目目录结构 - 简书 (jianshu.com)](https://www.jianshu.com/p/e38a07f824a2)
 
+或者命令`tree`
+
 ### Github 访问速度慢解决方案
 
 Link: [github访问加速 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/75994966)
@@ -132,11 +134,22 @@ Link: [github访问加速 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/759
 [(62 封私信 / 7 条消息) git clone一个github上的仓库，太慢，经常连接失败，但是github官网流畅访问，为什么？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/27159393)
 
 * 解决DNS污染：直接配置本地host
-  * 主要配置三个域名的ip地址映射，请自行通过上述链接查询ip
-    * github.com
-    * github.global.ssl.fastly.net
-    * assets-cdn.github.com
+
+  * Linux/MacOS 请直接更改 `/etc/hosts`
+
+  * 主要配置前四个域名的ip地址映射，请自行通过上述链接查询ip
+    * ```bash
+      github.com
+      github.global.ssl.fastly.net
+      assets-cdn.github.com
+      raw.githubusercontent.com
+      gist.githubusercontent.com
+      cloud.githubusercontent.com
+      camo.githubusercontent.com
+      ```
+
     * 其余域名如需要，请参考：[访问GitHub很慢的问题解决 | Bruce's Blog (a1049145827.github.io)](https://a1049145827.github.io/2018/07/31/访问GitHub很慢的问题解决/)
+
 * 可能依旧需要SSR服务
   
 * 一般是1080端口，可以查询SSR选项
@@ -209,8 +222,6 @@ pip freeze > requirements.txt
 pip install -r requirements.txt
 ```
 
-### 
-
 ### 查询自己的公网ip
 
 `curl ifconfig.me`
@@ -231,7 +242,7 @@ pip install -r requirements.txt
 
 ###### `git branch`
 
-* `git branch -M [<oldbranch>] <newbranch>]`:  `-M` shortcut for `--move -m`, move/rename a branch and corresponding reflog(不知道这是什么)
+* `git branch -M [<oldbranch>] <newbranch>`:  `-M` shortcut for `--move -m`, move/rename a branch and corresponding reflog(不知道这是什么)
 
 ###### `git config`
 
@@ -275,7 +286,7 @@ pip install -r requirements.txt
 
 * 对最近一次commit进行修改
 
-  ```
+  ```bash
   git commit --amend
   ```
 
@@ -482,7 +493,23 @@ sudo usermod -a -G groupName userName
 
 了解登录到计算机的所有用户的信息
 
-###### `grep`
+```bash
+who -r # 查询系统处于什么运行级别
+```
+
+###### `uname`
+
+print system information
+
+* -r内核 -m 32位还是64位 -a所有信息, -n主机名
+
+###### `free`
+
+```bash
+free -m # 查询内存状态
+```
+
+###### `grep` & 正则表达式
 
 ```bash
 grep -rnw '/path/to/somewhere' -e 'pattern'
@@ -496,6 +523,30 @@ grep --exclude=\*.sh -rnw . -e 'pattern'
 grep --include=\*.{c,h} -rnw 'path' -e 'pattern' # only search .c / .h files
 grep --exclude-dir={dir1,dir2,*.dst} -rnw . -e 'p'
 ```
+
+> `^word` ：表示搜索以word开头的内容
+>
+> `word$` 表示搜索以word结尾的内容
+>
+> `^$`   表示的是**空行**，不是空格
+>
+> `.`   代表**且**只能代表任意一个字符
+>
+> `\`   转义字符，让有着特殊身份意义的字符，脱掉马甲，还原原型。例如\.只表示原始小数点意义
+>
+> `*` 表示重复0个或多个**前面**的一个字符。**不代表所有**
+>
+> `.*`  表示匹配**所有**的字符
+>
+> `^.*` 表示以任意字符开头
+>
+> `[任意字符]` 匹配字符集内任意一个字符，如`[a-z]`
+>
+> `[^abc]` `^`在中括号里面是非的意思，不包含之意。意思就是不包含a或b或c的行
+>
+> {n，m} 表示重复n到m次前一个字符，`{n}`至少n次，多了不限，`{,m}`至多m次
+>
+> 注：使用grep或sed要对`{}`转义，即`\{\}`，egrep就不需要转义了
 
 ###### `find`
 
@@ -530,6 +581,39 @@ long format 具体解释：[ls -- list file and directory names and attributes (
 > - 显示扩展属性：`lsattr [-adR] [文件|目录]`
 > - 修改扩展属性：`chattr [-R] [[-+=][属性]] <文件|目录>`
 
+###### `ln` (硬链接&软链接)
+
+图文详情：[Linux ln 命令 - sparkdev - 博客园 (cnblogs.com)](https://www.cnblogs.com/sparkdev/p/11275722.html)
+
+默认硬链接(hard link)，即创建新的文件名指向同一个inode，不占用inode或block空间
+
+> 由于硬链接只是在目录中添加了一条包含文件名和 对应 inode 的记录，所以它几乎不会消耗额外的磁盘容量。
+> 另外在删除硬链接所关联的文件时，其实只是删除了一条目录中的记录，真正的文件并不受影响。只有在删除最后一个硬链接时才会真正删除文件的内容数据。
+
+* 仅可以在同一个文件系统中有效
+
+* 不可给目录创建硬链接
+
+  > 由于这两个限制，实际使用中硬链接并没有软链接使用的广泛
+
+  ```bash
+  ln <source file or directory> <target>
+  ```
+
+软链接(symbolic link)
+
+复制一份inode和占用一个新的data block（该block存储源文件的inode地址）
+
+* 可以指向目录且可以跨文件系统
+
+* 创建软链接并不增加原文件的链接数
+
+```bash
+ln -s <source> <target>
+```
+
+
+
 ###### `df`, `stat`
 
 ```bash
@@ -560,6 +644,7 @@ More: [sudo: cd: command not found_OSKernelLAB-CSDN博客](https://blog.csdn.net
 > 它依次处理文件的每一行，并读取里面的每一个字段。对于日志、CSV 那样的每行格式相同的文本文件，`awk`可能是最方便的工具。
 
 ```bash
+awk '{print $0}' # 将标准输入打印一遍
 awk -F ':' '{ print $1 }' demo.txt # 以冒号为分隔符(field separator)，提取每一行的第一个字段
 $NF # 当前行有多少个字段
 awk -F ':' '{print $1, $(NF-1)}' demo.txt # 倒数第二个字段
@@ -568,7 +653,7 @@ awk -F ':' '{print NR ") " $1}' demo.txt # 显示当前处理的是第几行
 awk -F ':' '/usr/ {print $1}' demo.txt # 正则表达式过滤器
 awk -F ':' 'NR % 2 == 1 {print $1}' demo.txt # 输出奇数行
 awk -F ':' '$1 == "root" || $1 == "bin" {print $1}' demo.txt
-awk -F ':' '{if ($1 > "m") print $1; else print "---"}' demo.txt # if-else语句
+awk -F ':' '{if ($1 > "m") print $0; else print "---"}' demo.txt # if-else语句
 ping 192.168.X.X | awk '{ print $0"\t" strftime("%Y:%m:%d-%H:%M:%S",systime()) fflush() } '>ping.log # 时间戳
 ```
 
@@ -588,19 +673,68 @@ tee指令会从标准输入设备读取数据，将其内容输出到标准输�
 
 cat（英文全拼：concatenate）命令用于连接文件并打印到标准输出设备上
 
+###### `tar`
+
+归档
+
+```bash
+tar -c [-f Archive] File # basic syntax (-c for creation)
+tar -cvf /mydata/etc.tar /etc # frequent used form
+# -v for verbosely list files processed
+```
+
+压缩
+
+```bash
+tar -zcvf /mydata/etc.tar.gz /etc # use gzip
+tar -jcvf /mydata/etc.tar.bz2 /etc # use bzip2
+```
+
+解压
+
+```bash
+tar -zxvf /mydata/etc.tar.gz # 解压到当前文件夹 (-x for extract)
+tar -zxvf /mydata/etc.tar.gz -C /mydata/etc # 解压到指定文件夹 (-C for changing to the specified directory to perform any operations, this option is order-sensitive)
+```
+
+###### `tree`
+
+```bash
+tree -L <层数> -d <目录> # 可能需要apt install
+```
+
+
+
 ### Linux/Unix基本概念
 
-##### block
+##### 文件系统
+
+[Linux EXT2 文件系统 - sparkdev - 博客园 (cnblogs.com)](https://www.cnblogs.com/sparkdev/p/11212734.html)
+
+###### 查看文件系统格式
+
+```bash
+mount
+cat /etc/fstab
+```
+
+###### block
 
 操作系统读取磁盘时的最小单位，一般约4KB，由若干sector组成；sector是磁盘存储的最小单位，一般约512B
 
-##### inode
+###### inode
+
+![“inode”的图片搜索结果](img/1493710190_10-34.jpg)
+
+![img](img/952033-20190726130127224-428242951.png)
+
+[Linux 文件与目录 - sparkdev - 博客园 (cnblogs.com)](https://www.cnblogs.com/sparkdev/p/11249659.html)
 
 存储文件的元信息，中文译名：索引节点；存储内容包括链接数，即有多少文件名指向该inode，文件数据block的位置，权限等信息（除了文件名）
 
 inode本身也会消耗磁盘空间，可用`df -i`查询，一般一个inode的大小为128/256字节（Byte），可用`sudo dumpe2fs -h <filesystem_like_/dev/sda5> | grep "Inode size"`
 
-##### major & minor number
+###### major & minor number
 
 Character or block device 的 major number identifies the driver (驱动) with this device. 内核根据major number在`open`的时候用来选择对应的驱动
 
@@ -622,9 +756,25 @@ The environment variables of a process exist at runtime, and are not stored in s
 
 英文参考 [Filesystem Hierarchy Standard - Wikipedia](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
 
-注意到`Ubuntu 20.04`已有改动，包括建立`/bin`至`/usr/bin`的硬链接等
+注意到`Ubuntu 20.04`已有改动，包括建立`/bin`至`/usr/bin`的软链接(symbolic link)等
 
 * `/etc`存放配置文件
+
+* `/var` 包含正在操作的文件，还有记录文件、加密文件、临时文件
+
+* `/proc` 虚拟目录，该目录实际上指向内存而不是硬盘
+
+  * /proc/cpuinfo 处理器的信息
+
+    /proc/devices 当前运行内核的所有设备清单
+
+    /proc/dma 当前正在使用中的DMA通道
+
+    /proc/filesystem 当前运行内核所配置的文件系统
+
+    /proc/interrupts 当前使用的中断和曾经有多少个中断
+
+    /proc/ioports 正在使用的I/O端口
 
 ##### 动态链接库
 
@@ -873,7 +1023,19 @@ sudo sh -c 'ls -hal /root/ > /root/test.out' # use shell with -c
 sudo ls -hal /root/ | sudo tee /root/test.out > /dev/null # use tee with > /dev/null
 ```
 
+### 时间同步
 
+[Linux系统时间同步的两种方法-Linux运维日志 (centos.bz)](https://www.centos.bz/2017/08/linux-time-sync/)
+
+```bash
+date -R # 查询时间及时区
+tzselect # 查询时区对应文件名
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime # 配置时区
+```
+
+### Linux下删除文件
+
+> Linux系统是通过link的数量来控制文件删除的，只有当一个文件不存在任何link的时候，这个文件才会被删除。一般来说每个文件两个link计数器来控制i_count和i_nlink。当一个文件被一个程序占用的时候i_count就加1。当文件的硬链接多一个的时候i_nlink也加1。删除一个文件，就是让这个文件，没有进程占用，同时i_link数量为0
 
 ### 其它名词解释
 
@@ -881,5 +1043,9 @@ sudo ls -hal /root/ | sudo tee /root/test.out > /dev/null # use tee with > /dev/
 
 * Binary Large OBject
 
+VPS
 
+* Virtual private server
+
+  > 虚拟专用服务器，是将一台服务器分割成多个虚拟专用服务器的服务。实现VPS的技术分为容器技术和虚拟机技术。在容器或虚拟机中，每个VPS都可分配独立公网IP地址、独立操作系统、实现不同VPS间磁盘空间、内存、CPU资源、进程和系统配置的隔离，为用户和应用程序模拟出“独占”使用计算资源的体验。
 

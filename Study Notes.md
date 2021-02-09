@@ -9,7 +9,7 @@ typora-copy-images-to: img
 **Official Doc**: [Windows 终端概述 | Microsoft Docs](https://docs.microsoft.com/zh-cn/windows/terminal/)
 
 * Tutorial (It uses PS5, please also reference tutorial of PS7 listed below)
-  [新生代 Windows 终端：Windows Terminal 的全面自定义 - 少数派 (sspai.com)](https://sspai.com/post/59380)
+  [Windows Terminal 自定义 - 少数派](https://sspai.com/post/59380)
   [Windows 终端 Powerline 设置 | Microsoft Docs](https://docs.microsoft.com/zh-cn/windows/terminal/tutorials/powerline-setup)
 * 安装字体
   
@@ -114,28 +114,36 @@ now `oh-my-posh3` is also configured using [Themes | Oh my Posh 3](https://ohmyp
 #### Change backup location
 
 * Default location: instead of `%appdata%\Apple Computer`, it is directly located under `<user>\Apple`.
-* 建立链接：[iphone备份太大，严重挤占C盘空间，怎么办？ - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/30324383)
+* 建立链接：[iphone备份太大，严重挤占C盘空间，怎么办？ - 知乎](https://zhuanlan.zhihu.com/p/30324383)
   * 在Powershell 中，请使用`cmd /c mklink /J "<link>" "<target>"`, and make sure the directory of `<link>` does not exist (or say be created in advance)
-  * More: `mklink /J` link directories  [Windows 中的 mklink 命令 | 始终 (liam.page)](https://liam.page/2018/12/10/mklink-in-Windows/)
+  * More: `mklink /J` link directories  [Windows 中的 mklink 命令 | 始终](https://liam.page/2018/12/10/mklink-in-Windows/)
     * Similar to `ln` command in Linux
 
 ### 目录生成器 适用于添加到Markdown
 
-`treer`: [markdown如何写出项目目录结构 - 简书 (jianshu.com)](https://www.jianshu.com/p/e38a07f824a2)
+`treer`: [markdown如何写出项目目录结构 - 简书](https://www.jianshu.com/p/e38a07f824a2)
 
 或者命令`tree`
 
+### 终端代理 proxychains
+
+[一次解决所有代理问题](https://guangchuangyu.github.io/cn/2018/09/proxychains/)
+
 ### Github 访问速度慢解决方案
 
-Link: [github访问加速 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/75994966)
+Link: [github访问加速 - 知乎](https://zhuanlan.zhihu.com/p/75994966)
 
 **Search for IP Address**: [The Best IP Address, Email and Networking Tools - IPAddress.com](https://www.ipaddress.com/)
 
-[(62 封私信 / 7 条消息) git clone一个github上的仓库，太慢，经常连接失败，但是github官网流畅访问，为什么？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/27159393)
+[git clone一个github上的仓库，太慢，经常连接失败，但是github官网流畅访问，为什么？ - 知乎](https://www.zhihu.com/question/27159393)
 
 * 解决DNS污染：直接配置本地host
 
   * Linux/MacOS 请直接更改 `/etc/hosts`
+
+  * Windows 请更改系统hosts文件(需管理员权限，VSCode在保存时可以选择save as admin)，路径：`C:\Windows\System32\drivers\etc\hosts`
+
+    * 结束后，管理员身份运行 `ipconfig /flushdns` 手动刷新系统DNS缓存。
 
   * 主要配置前四个域名的ip地址映射，请自行通过上述链接查询ip
     * ```bash
@@ -148,7 +156,7 @@ Link: [github访问加速 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/759
       camo.githubusercontent.com
       ```
 
-    * 其余域名如需要，请参考：[访问GitHub很慢的问题解决 | Bruce's Blog (a1049145827.github.io)](https://a1049145827.github.io/2018/07/31/访问GitHub很慢的问题解决/)
+    * 其余域名如需要，请参考：[访问GitHub很慢的问题解决 | Bruce's Blog](https://a1049145827.github.io/2018/07/31/访问GitHub很慢的问题解决/)
 
 * 可能依旧需要SSR服务
   
@@ -177,11 +185,18 @@ Link: [github访问加速 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/759
 
 ### Gvim (Not finished)
 
-Link: [Vim：gvim安装配置（windows） - 整合侠 - 博客园 (cnblogs.com)](https://www.cnblogs.com/lizm166/p/8514129.html)
+Link: [Vim：gvim安装配置（windows） - 整合侠 - 博客园](https://www.cnblogs.com/lizm166/p/8514129.html)
 
 ### Everything (A Global Search Software for Windows)
 
 Link: [voidtools](https://www.voidtools.com/zh-cn/)
+
+### 命令行跳转快捷键
+
+* ctrl+a:光标移到行首
+* ctrl+e:光标移到行尾
+
+* ctrl+z : 把当前进程转到后台运行，使用’ fg ‘命令恢复。比如top -d1 然后ctrl+z ，到后台，然后fg,重新恢复
 
 ### Vim常用命令
 
@@ -189,13 +204,21 @@ Link: [voidtools](https://www.voidtools.com/zh-cn/)
 
 1. 跳到文本的**最后一行**：按“G”,即“shift+g”
 2. 跳到**最后一行**的**最后**一个字符： 先重复1的操作即按“G”，之后按“$”键，即“shift+4”。
-3. 跳到第一行的第一个字符：先按两次“g”，
+3. 跳到第一行的第一个字符：先**按两次“g”**，
 4. 跳转到当前行的第一个字符：在当前行按“0”
+5. `Ctrl-f`  即 PageDown 翻页
+   `Crtl-b`  即 PageUp 翻页
 
 ###### 撤销
 
 `u` 撤销上一步的操作
 `Ctrl+r` 恢复上一步被撤销的操作
+
+###### 查找
+
+`/word` to search contents containing the word
+
+`/\<word\>` to search the exact word
 
 ### Python常用函数
 
@@ -274,7 +297,7 @@ pip install -r requirements.txt
 
 * `git stash`会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录
 
-  See: [git-stash用法小结 - Tocy - 博客园 (cnblogs.com)](https://www.cnblogs.com/tocy/p/git-stash-reference.html)
+  See: [git-stash用法小结 - Tocy - 博客园](https://www.cnblogs.com/tocy/p/git-stash-reference.html)
 
 ###### `git log`
 
@@ -306,11 +329,11 @@ pip install -r requirements.txt
 
 ### 配置zsh
 
-[写给工程师的 Ubuntu 20.04 最佳配置指南 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/139305626)
+[写给工程师的 Ubuntu 20.04 最佳配置指南 - 知乎](https://zhuanlan.zhihu.com/p/139305626)
 
 如果遇到443错误，使用国内镜像  [Ubuntu 关于ohmyzsh下载被443拒绝连接](https://blog.csdn.net/qq_35104586/article/details/103604964)
 
-* 另[Oh My Zsh, 『 443:Connection Refused 错误无法安装 』 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/264161761)
+* 另[Oh My Zsh, 『 443:Connection Refused 错误无法安装 』 - 知乎](https://zhuanlan.zhihu.com/p/264161761)
 
 ### 配置vim
 
@@ -322,7 +345,7 @@ pip install -r requirements.txt
 
 `shell`一般作为用户与内核之间的“桥梁”，通过shell命令（or程序语言）可以调用内核或使用已编译好的二进制文件（如`/bin/ls`，而这些二进制文件会通过诸如system call等方式调用内核）
 
-有许多shell解释器（或语言，因其各有对应语法），如`/bin/sh`, `/bin/bash`, `/usr/bin/zsh`， 它们是如何启动的，这个流程过于复杂，暂时没研究清楚，参考资料[Zsh/Bash startup files loading order (.bashrc, .zshrc etc.) | by Raja Sekar Durairaj | Medium](https://medium.com/@rajsek/zsh-bash-startup-files-loading-order-bashrc-zshrc-etc-e30045652f2e)
+有许多shell解释器（或语言，因其各有对应语法），如`/bin/sh`, `/bin/bash`, `/usr/bin/zsh`， 它们是如何启动的，这个流程过于复杂，暂时没研究清楚，参考资料[Zsh/Bash startup files loading order (.bashrc, .zshrc etc.) | Medium](https://medium.com/@rajsek/zsh-bash-startup-files-loading-order-bashrc-zshrc-etc-e30045652f2e)
 
 ###### 脚本第一行
 
@@ -349,7 +372,7 @@ unset <variable> # delete it except for readonly variable
 
 * 双引号里可以有变量，双引号里可以出现转义字符
 
-  More: [Shell 变量 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-shell-variable.html)
+  More: [Shell 变量 | 菜鸟教程](https://www.runoob.com/linux/linux-shell-variable.html)
 
 ###### 数组
 
@@ -377,7 +400,7 @@ $# # 参数个数
 $$ # 脚本运行的当前PID
 ```
 
-More: [Shell 传递参数 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-shell-passing-arguments.html)
+More: [Shell 传递参数 | 菜鸟教程](https://www.runoob.com/linux/linux-shell-passing-arguments.html)
 
 ###### 表达式运算
 
@@ -389,7 +412,7 @@ val=`expr 2 + 2`
 
 ###### 中括号总结及比较参数
 
-See [Shell 中的中括号用法总结 | 菜鸟教程 (runoob.com)](https://www.runoob.com/w3cnote/shell-summary-brackets.html)
+See [Shell 中的中括号用法总结 | 菜鸟教程](https://www.runoob.com/w3cnote/shell-summary-brackets.html)
 
 ###### PS1 PS2
 
@@ -397,11 +420,23 @@ See [Shell 中的中括号用法总结 | 菜鸟教程 (runoob.com)](https://www.
 
 ###### 流程控制语句
 
-See [Shell 流程控制 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-shell-process-control.html)
+See [Shell 流程控制 | 菜鸟教程](https://www.runoob.com/linux/linux-shell-process-control.html)
 
 
 
 ### Linux/Unix 常用命令
+
+###### slash commands
+
+To call the original command instead of any possible alias, e.g. `\grep` to avoid calling the alias defined by `alias grep='grep --color=auto'`
+
+###### `--` argument
+
+> The first `--` argument that is not an option-argument should be accepted as a delimiter indicating the end of options. Any following arguments should be treated as operands, even if they begin with the `-` character.
+
+`man 1 bash` 指出`-`等价于`--`
+
+> A `--` signals the end of options and disables further option processing. Any arguments after the `--` are treated as filenames and arguments. An argument of `-` is equivalent to `--`.
 
 ###### `ps` and `pstree`
 
@@ -423,7 +458,7 @@ pstree -ap | grep <name or pid or ...>
 pstree -ap $pid
 ```
 
-See: [linux每日命令(34)：ps命令和pstree命令 - 听风。 - 博客园 (cnblogs.com)](https://www.cnblogs.com/huchong/p/10065246.html)
+See: [linux每日命令(34)：ps命令和pstree命令 - 博客园](https://www.cnblogs.com/huchong/p/10065246.html)
 
 ###### `kill`
 
@@ -437,7 +472,7 @@ kill -9 <PID> # 强制杀死进程，除了init进程
 
 ```
 
-See: [每天一个linux命令（42）：kill命令 - peida - 博客园 (cnblogs.com)](https://www.cnblogs.com/peida/archive/2012/12/20/2825837.html)
+See: [每天一个linux命令（42）：kill命令 - 博客园](https://www.cnblogs.com/peida/archive/2012/12/20/2825837.html)
 
 ###### `which`
 
@@ -524,6 +559,8 @@ grep --include=\*.{c,h} -rnw 'path' -e 'pattern' # only search .c / .h files
 grep --exclude-dir={dir1,dir2,*.dst} -rnw . -e 'p'
 ```
 
+[Regular Expression website with explanation and wiki](https://regex101.com/)
+
 > `^word` ：表示搜索以word开头的内容
 >
 > `word$` 表示搜索以word结尾的内容
@@ -581,9 +618,13 @@ long format 具体解释：[ls -- list file and directory names and attributes (
 > - 显示扩展属性：`lsattr [-adR] [文件|目录]`
 > - 修改扩展属性：`chattr [-R] [[-+=][属性]] <文件|目录>`
 
+###### `lsof`
+
+[lsof 一切皆文件 — Linux Tools Quick Tutorial](https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/lsof.html)
+
 ###### `ln` (硬链接&软链接)
 
-图文详情：[Linux ln 命令 - sparkdev - 博客园 (cnblogs.com)](https://www.cnblogs.com/sparkdev/p/11275722.html)
+图文详情：[Linux ln 命令 博客园 ](https://www.cnblogs.com/sparkdev/p/11275722.html)
 
 默认硬链接(hard link)，即创建新的文件名指向同一个inode，不占用inode或block空间
 
@@ -633,11 +674,11 @@ sudo -s # both run the shell (generally) as a superuser, this solves the error g
 su - # this will change the environment variable, essentially it starts the shell as a login shell
 ```
 
-More: [sudo: cd: command not found_OSKernelLAB-CSDN博客](https://blog.csdn.net/gatieme/article/details/49106865)
+More: [sudo: cd: command not found-CSDN博客](https://blog.csdn.net/gatieme/article/details/49106865)
 
 ###### `awk`
 
-[awk 入门教程 - 阮一峰的网络日志 (ruanyifeng.com)](https://www.ruanyifeng.com/blog/2018/11/awk.html)
+[awk 入门教程 - 阮一峰的网络日志 ](https://www.ruanyifeng.com/blog/2018/11/awk.html)
 
 > [`awk`](https://en.wikipedia.org/wiki/AWK)是处理文本文件的一个应用程序，几乎所有 Linux 系统都自带这个程序。
 >
@@ -659,8 +700,14 @@ ping 192.168.X.X | awk '{ print $0"\t" strftime("%Y:%m:%d-%H:%M:%S",systime()) f
 
 ###### `curl`
 
+> curl is a tool to transfer data from or to a server
+
 ```bash
 curl https://www.example.com # 不带有任何参数时，curl 就是发出 GET 请求
+-s # silent
+-S # show error message
+-L # redo curl if receiving redirection response
+-f # fail silently
 ```
 
 ###### `tee`
@@ -703,13 +750,34 @@ tar -zxvf /mydata/etc.tar.gz -C /mydata/etc # 解压到指定文件夹 (-C for c
 tree -L <层数> -d <目录> # 可能需要apt install
 ```
 
+###### `tmux`
+
+```bash
+tmux # 创建一个默认tmux会话及打开该窗口
+exit 或 ctrl+d # 退出tmux窗口
+ctrl+b ? # 帮助命令
+tmux new -s <session-name> # 创建指定名称地会话
+tmux detach 或 ctrl+b d# 分离会话与该窗口
+tmux ls # list all sessions
+
+# 重新接入已存在的会话
+tmux attach -t <session-id or session-name>
+tmux a
+
+tmux kill-session -t <session-id or session-name> # kill session
+tmux switch -t <session-id or session-name> # switch session
+tmux rename-session -t <session-id> <new-name>
+```
+
+窗口分屏等其它特性和配置：[Tmux 使用教程 - 阮一峰的网络日志](http://www.ruanyifeng.com/blog/2019/10/tmux.html)
+
 
 
 ### Linux/Unix基本概念
 
 ##### 文件系统
 
-[Linux EXT2 文件系统 - sparkdev - 博客园 (cnblogs.com)](https://www.cnblogs.com/sparkdev/p/11212734.html)
+[Linux EXT2 文件系统 - sparkdev - 博客园](https://www.cnblogs.com/sparkdev/p/11212734.html)
 
 ###### 查看文件系统格式
 
@@ -728,7 +796,7 @@ cat /etc/fstab
 
 ![img](img/952033-20190726130127224-428242951.png)
 
-[Linux 文件与目录 - sparkdev - 博客园 (cnblogs.com)](https://www.cnblogs.com/sparkdev/p/11249659.html)
+[Linux 文件与目录 - sparkdev - 博客园](https://www.cnblogs.com/sparkdev/p/11249659.html)
 
 存储文件的元信息，中文译名：索引节点；存储内容包括链接数，即有多少文件名指向该inode，文件数据block的位置，权限等信息（除了文件名）
 
@@ -752,7 +820,7 @@ The environment variables of a process exist at runtime, and are not stored in s
 
 ##### 根目录的子目录
 
-[Ubuntu根目录下各文件夹的功能详细介绍 - Yudar - 博客园 (cnblogs.com)](https://www.cnblogs.com/yudar/p/5809219.html)
+[Ubuntu根目录下各文件夹的功能详细介绍 - Yudar - 博客园](https://www.cnblogs.com/yudar/p/5809219.html)
 
 英文参考 [Filesystem Hierarchy Standard - Wikipedia](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
 
@@ -835,9 +903,9 @@ sudo usermod -a -G groupName userName
 
 ##### 虚拟机网络模式
 
-[实例讲解虚拟机3种网络模式(桥接、nat、Host-only) - ggjucheng - 博客园 (cnblogs.com)](https://www.cnblogs.com/ggjucheng/archive/2012/08/19/2646007.html)
+[实例讲解虚拟机3种网络模式(桥接、nat、Host-only) - 博客园](https://www.cnblogs.com/ggjucheng/archive/2012/08/19/2646007.html)
 
-[NAT模式、路由模式、桥接模式 区别对比_bytxl的专栏-CSDN博客](https://blog.csdn.net/bytxl/article/details/35569217)
+[NAT模式、路由模式、桥接模式 区别对比-CSDN博客](https://blog.csdn.net/bytxl/article/details/35569217)
 
 VMWare 配置：编辑>虚拟网络编辑器
 
@@ -848,6 +916,45 @@ VMWare 配置：编辑>虚拟网络编辑器
 ###### NAT
 
 ###### Host-Only
+
+### Docker
+
+<img src="img/image-20210208151214195.png" alt="image-20210208151214195" style="zoom:50%;" />
+
+> 图源[Docker 架构 | 菜鸟教程](https://www.runoob.com/docker/docker-architecture.html)
+
+###### apk和pip下载慢
+
+Dockerfile中添加
+
+```dockerfile
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple \
+	&& pip config set install.trusted-host mirrors.aliyun.com
+```
+
+###### Dockerfile
+
+[Dockerfile reference | Docker Documentation](https://docs.docker.com/engine/reference/builder/)
+
+> Docker can build images automatically by reading the instructions from a `Dockerfile`. A `Dockerfile` is a text document that contains all the commands a user could call on the command line to assemble an image. Using `docker build` users can create an automated build that executes several command-line instructions in succession.
+
+###### Volume
+
+<img src="img/image-20210209110045049.png" alt="image-20210209110045049" style="zoom:50%;" />
+
+It will be mounted to (by default) `/var/lib/docker` `volumes` sub-directories; otherwise, specify the directory explicitly like `/data`.
+
+* [Volume | Blog](https://larrylu.blog/using-volumn-to-persist-data-in-container-a3640cc92ce4)
+* [Use volumes | Docker Documentation](https://docs.docker.com/storage/volumes/)
+
+### PostgreSQL
+
+###### Installation on Ubuntu
+
+[Install PostgreSQL on Ubuntu](https://www.postgresqltutorial.com/install-postgresql-linux/)
+
+default port 5432
 
 ### Shadowsocks
 
@@ -865,9 +972,9 @@ VMWare 配置：编辑>虚拟网络编辑器
 
 <img src="img/image-20210126155343521.png" alt="image-20210126155343521" style="zoom: 50%;" />
 
-[SS和SSR的原理 | A Big Boy Blog - Tech Articls & Notes (sulangsss.github.io)](https://sulangsss.github.io/2018/12/18/Network/SS-SSR 原理/)
+[SS和SSR的原理 | A Big Boy Blog](https://sulangsss.github.io/2018/12/18/Network/SS-SSR 原理/)
 
-[shadowsocks实现原理 | Hexo (bingtaoli.github.io)](https://bingtaoli.github.io/2016/11/23/shadowsocks实现原理/)
+[shadowsocks实现原理 | Hexo](https://bingtaoli.github.io/2016/11/23/shadowsocks实现原理/)
 
 <img src="img/image-20210126162307483.png" alt="image-20210126162307483" style="zoom: 25%;" />
 
@@ -896,11 +1003,11 @@ get-filehash -algorithm <algorithm> <filename> # built-in for powershell
 
 [Ubuntu安装配置Nginx（一）——部署Web服务 - SegmentFault 思否](https://segmentfault.com/a/1190000015797789)
 
-[nginx快速入门之配置篇 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/31202053)
+[nginx快速入门之配置篇 - 知乎](https://zhuanlan.zhihu.com/p/31202053)
 
 ### Supervisor
 
-👍[Python 进程管理工具 Supervisor 使用教程 - restran - 博客园 (cnblogs.com)](https://www.cnblogs.com/restran/p/4854623.html)
+👍[Python 进程管理工具 Supervisor 使用教程 - restran - 博客园](https://www.cnblogs.com/restran/p/4854623.html)
 
 ### InfluxDB
 
@@ -910,17 +1017,17 @@ Root URL of the Doc. [InfluxDB OSS 1.8 Documentation (influxdata.com)](https://d
 
 #### CLI
 
-主要关于启动CLI：[Using influx - InfluxDB command line interface | InfluxDB OSS 1.8 Documentation (influxdata.com)](https://docs.influxdata.com/influxdb/v1.8/tools/shell/)
+主要关于启动CLI：[Using influx - InfluxDB command line interface | InfluxDB OSS 1.8 Documentation](https://docs.influxdata.com/influxdb/v1.8/tools/shell/)
 
 #### InfluxQL
 
 This section introduces InfluxQL, the InfluxDB SQL-like query language for working with data in InfluxDB databases.
 
-[Influx Query Language (InfluxQL) | InfluxDB OSS 1.8 Documentation (influxdata.com)](https://docs.influxdata.com/influxdb/v1.8/query_language/)
+[Influx Query Language (InfluxQL) | InfluxDB OSS 1.8 Documentation](https://docs.influxdata.com/influxdb/v1.8/query_language/)
 
 ##### Line Protocol
 
-[InfluxDB line protocol tutorial | InfluxDB OSS 1.8 Documentation (influxdata.com)](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/)
+[InfluxDB line protocol tutorial | InfluxDB OSS 1.8 Documentation](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/)
 
 * `insert into <retention policy> <line protocol>`
 * line protocol = `<measurement>,[<tag set>] <field set> [timestamp]`
@@ -929,7 +1036,7 @@ This section introduces InfluxQL, the InfluxDB SQL-like query language for worki
 
 ##### SELECT and FROM clause
 
-[Explore data using InfluxQL | InfluxDB OSS 1.8 Documentation (influxdata.com)](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/)
+[Explore data using InfluxQL | InfluxDB OSS 1.8 Documentation](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/)
 
 * `FROM <database_name>.<retention_policy_name>.<measurement_name>`
 
@@ -949,11 +1056,11 @@ This section introduces InfluxQL, the InfluxDB SQL-like query language for worki
 
 ###### GROUP BY time()
 
-[Explore data using InfluxQL | InfluxDB OSS 1.8 Documentation (influxdata.com)](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/#group-by-time-intervals)
+[Explore data using InfluxQL | InfluxDB OSS 1.8 Documentation](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/#group-by-time-intervals)
 
 ##### INTO clause
 
-[Explore data using InfluxQL | InfluxDB OSS 1.8 Documentation (influxdata.com)](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/#examples-4)
+[Explore data using InfluxQL | InfluxDB OSS 1.8 Documentation](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/#examples-4)
 
 ###### Rename a database
 
@@ -1025,7 +1132,7 @@ sudo ls -hal /root/ | sudo tee /root/test.out > /dev/null # use tee with > /dev/
 
 ### 时间同步
 
-[Linux系统时间同步的两种方法-Linux运维日志 (centos.bz)](https://www.centos.bz/2017/08/linux-time-sync/)
+[Linux系统时间同步的两种方法-Linux运维日志](https://www.centos.bz/2017/08/linux-time-sync/)
 
 ```bash
 date -R # 查询时间及时区
@@ -1037,13 +1144,26 @@ cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime # 配置时区
 
 > Linux系统是通过link的数量来控制文件删除的，只有当一个文件不存在任何link的时候，这个文件才会被删除。一般来说每个文件两个link计数器来控制i_count和i_nlink。当一个文件被一个程序占用的时候i_count就加1。当文件的硬链接多一个的时候i_nlink也加1。删除一个文件，就是让这个文件，没有进程占用，同时i_link数量为0
 
+### 语义化版本(SemVer)
+
+[语义化版本 2.0.0 | Semantic Versioning (semver.org)](https://semver.org/lang/zh-CN/)
+
+* `1.0.0`起，公开API基本稳定；`0.*.*`说明API不稳定，可以不遵循SemVer，一般不使用`0.0.*`以保留他用
+* 每一个大版本更新，即`x.y.z`中的x，意味着API不向下兼容
+* 每一次更改API但保持向下兼容，则更新`x.y.z`中的y
+* 每一次修复API内部实现，则更新`x.y.z`中的z
+* 可以添加`-`后缀用来反应`pre-release`等信息，如`1.0.0-alpha.1`
+  * Example: `1.0.0-alpha < 1.0.0-alpha.1 < 1.0.0-alpha.beta < 1.0.0-beta < 1.0.0-beta.2 < 1.0.0-beta.11 < 1.0.0-rc.1 < 1.0.0`
+* Meta-data 使用 `+`后缀，如`1.0.0-alpha+001, 1.0.0+20130313144700, 1.0.0-beta+exp.sha.5114f85, 1.0.0+21AF26D3—-117B344092BD`
+* RegExp: https://regex101.com/r/Ly7O1x/3/ (Support PCRE [Perl Compatible Regular Expressions, i.e. Perl, PHP and R], Python and Go)
+
 ### 其它名词解释
 
 ###### Blob
 
 * Binary Large OBject
 
-VPS
+###### VPS
 
 * Virtual private server
 

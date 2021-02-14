@@ -708,6 +708,8 @@ curl https://www.example.com # 不带有任何参数时，curl 就是发出 GET 
 -S # show error message
 -L # redo curl if receiving redirection response
 -f # fail silently
+
+-i # also print HTTP response header
 ```
 
 ###### `tee`
@@ -922,6 +924,8 @@ VMWare 配置：编辑>虚拟网络编辑器
 <img src="img/image-20210208151214195.png" alt="image-20210208151214195" style="zoom:50%;" />
 
 > 图源[Docker 架构 | 菜鸟教程](https://www.runoob.com/docker/docker-architecture.html)
+>
+> docker machine is deprecated / superseded
 
 ###### apk和pip下载慢
 
@@ -933,11 +937,19 @@ RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple \
 	&& pip config set install.trusted-host mirrors.aliyun.com
 ```
 
+###### alpine apk 其它问题
+
+[alpine的Docker镜像使用避坑汇总](https://juejin.cn/post/6850418112237502472)
+
 ###### Dockerfile
 
 [Dockerfile reference | Docker Documentation](https://docs.docker.com/engine/reference/builder/)
 
 > Docker can build images automatically by reading the instructions from a `Dockerfile`. A `Dockerfile` is a text document that contains all the commands a user could call on the command line to assemble an image. Using `docker build` users can create an automated build that executes several command-line instructions in succession.
+
+###### Compose file
+
+[Compose file | Docker Documentation](https://docs.docker.com/compose/compose-file/)
 
 ###### Volume
 
@@ -948,6 +960,16 @@ It will be mounted to (by default) `/var/lib/docker` `volumes` sub-directories; 
 * [Volume | Blog](https://larrylu.blog/using-volumn-to-persist-data-in-container-a3640cc92ce4)
 * [Use volumes | Docker Documentation](https://docs.docker.com/storage/volumes/)
 
+##### `docker-compose`
+
+* under running directory `docker-compose up -d`, where `-d` means detached mode
+
+* `docker-compose ps` to view all containers / services
+
+* `docker-compose stop` to stop services once started with `-d` option
+
+  [Compose command-line reference | Docker Documentation](https://docs.docker.com/compose/reference/)
+
 ### PostgreSQL
 
 ###### Installation on Ubuntu
@@ -955,6 +977,12 @@ It will be mounted to (by default) `/var/lib/docker` `volumes` sub-directories; 
 [Install PostgreSQL on Ubuntu](https://www.postgresqltutorial.com/install-postgresql-linux/)
 
 default port 5432
+
+### Wiki.js
+
+[Wiki.js](https://js.wiki/)
+
+Just follow the official documentation, while PostgreSQL does not officially support searching for Chinese (plugin for postgres is needed) and the features are not quite satisfied for my demand. At least Typora is much better in terms of editing.
 
 ### Shadowsocks
 
@@ -1157,6 +1185,56 @@ cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime # 配置时区
 * Meta-data 使用 `+`后缀，如`1.0.0-alpha+001, 1.0.0+20130313144700, 1.0.0-beta+exp.sha.5114f85, 1.0.0+21AF26D3—-117B344092BD`
 * RegExp: https://regex101.com/r/Ly7O1x/3/ (Support PCRE [Perl Compatible Regular Expressions, i.e. Perl, PHP and R], Python and Go)
 
+### REST
+
+###### Constraints
+
+1. Client-Server
+2. Stateless
+   1. Each request from client to server must contain all of the information necessary to understand the request, and cannot take advantage of any stored context on the server.
+   2. Session state is therefore kept entirely on the client.
+   3. Disadvantage:
+      1. decrease network performance
+      2. hard to maintain consistent application behavior since app becomes dependent on the correct implementation of semantics across multiple client versions
+3. Cache
+   1. If a response is cacheable, then a client cache is given the right to reuse that response data for later, equivalent requests
+   2. Disadvantage: decrease reliability if stale data within the cache differs significantly from the data that would have been obtained had the request been sent directly to the server
+4. Uniform Interface
+   1. Advantage: the overall system architecture is simplified and the visibility of interactions is improved
+   2. Disadvantage: a uniform interface degrades efficiency, since information is transferred in a standardized form rather than one which is specific to an application's needs
+      1. The REST interface is designed to be efficient for large-grain hypermedia data transfer, optimizing for the common case of the Web, but resulting in an interface that is not optimal for other forms of architectural interaction
+5. Layered System
+   1. Disadvantage: latency
+      1. Solution: cache
+   2. Advantage: add security policies easily like firewalls
+6. Code-On-Demand
+
+###### 资源（Resources）
+
+REST的名称"表现层状态转化"中，省略了主语。"表现层"其实指的是"资源"（Resources）的"表现层"。
+
+**所谓"资源"，就是网络上的一个实体，或者说是网络上的一个具体信息。**它可以是一段文本、一张图片、一首歌曲、一种服务，总之就是一个具体的实在。你可以用一个URI（统一资源定位符）指向它，每种资源对应一个特定的URI。要获取这个资源，访问它的URI就可以，因此URI就成了每一个资源的地址或独一无二的识别符。
+
+所谓"上网"，就是与互联网上一系列的"资源"互动，调用它的URI。
+
+###### 表现层（Representation）
+
+"资源"是一种信息实体，它可以有多种外在表现形式。**我们把"资源"具体呈现出来的形式，叫做它的"表现层"（Representation）。**
+
+比如，文本可以用txt格式表现，也可以用HTML格式、XML格式、JSON格式表现，甚至可以采用二进制格式；图片可以用JPG格式表现，也可以用PNG格式表现。
+
+URI只代表资源的实体，不代表它的形式。严格地说，有些网址最后的".html"后缀名是不必要的，因为这个后缀名表示格式，属于"表现层"范畴，而URI应该只代表"资源"的位置。它的具体表现形式，应该在HTTP请求的头信息中用Accept和Content-Type字段指定，这两个字段才是对"表现层"的描述
+
+###### 状态转化（State Transfer）
+
+访问一个网站，就代表了客户端和服务器的一个互动过程。在这个过程中，势必涉及到数据和状态的变化。
+
+互联网通信协议HTTP协议，是一个无状态协议。这意味着，所有的状态都保存在服务器端。因此，**如果客户端想要操作服务器，必须通过某种手段，让服务器端发生"状态转化"（State Transfer）。而这种转化是建立在表现层之上的，所以就是"表现层状态转化"。**
+
+客户端用到的手段，只能是HTTP协议。具体来说，就是HTTP协议里面，四个表示操作方式的动词：GET、POST、PUT、DELETE。它们分别对应四种基本操作：**GET用来获取资源，POST用来新建资源（也可以用于更新资源），PUT用来更新资源，DELETE用来删除资源。**
+
+[RESTful API 设计指南 - 阮一峰](http://www.ruanyifeng.com/blog/2014/05/restful_api.html)
+
 ### 其它名词解释
 
 ###### Blob
@@ -1169,3 +1247,6 @@ cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime # 配置时区
 
   > 虚拟专用服务器，是将一台服务器分割成多个虚拟专用服务器的服务。实现VPS的技术分为容器技术和虚拟机技术。在容器或虚拟机中，每个VPS都可分配独立公网IP地址、独立操作系统、实现不同VPS间磁盘空间、内存、CPU资源、进程和系统配置的隔离，为用户和应用程序模拟出“独占”使用计算资源的体验。
 
+###### 语法糖 Syntactic Sugar
+
+> **语法糖**（英语：Syntactic sugar）是由英国[计算机科学家](https://zh.wikipedia.org/wiki/计算机科学家)[彼得·兰丁](https://zh.wikipedia.org/wiki/彼得·兰丁)发明的一个术语，指[计算机语言](https://zh.wikipedia.org/wiki/计算机语言)中添加的某种语法，这种语法对语言的功能没有影响，但是更方便程序员使用。语法糖让程序更加简洁，有更高的可读性

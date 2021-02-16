@@ -109,6 +109,20 @@ now `oh-my-posh3` is also configured using [Themes | Oh my Posh 3](https://ohmyp
 
 * ~~[Windows 终端 Powerline 设置 | Microsoft Docs](https://docs.microsoft.com/zh-cn/windows/terminal/tutorials/powerline-setup) 配置 `posh-git` and `oh-my-posh`~~
 
+### Windows 修改注册表
+
+```
+win + R
+regedit
+```
+
+#### 更改右键文件（夹）快捷键行为
+
+[怎么删除右键出现的Open Folder as Intellij IDEA Project](https://blog.csdn.net/Piqzem/article/details/94554348)
+
+> - 在注册表中打开“ 计算机 \ HKEY_CLASSES_ROOT \ Directory \ shell \ IDEA Community ”
+> - 删除整个“IDEA Community”文件夹
+
 ### Apple iTunes Backup
 
 #### Change backup location

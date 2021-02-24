@@ -51,8 +51,7 @@
 ```html
 <div id="app-5">
     <ol>
-        <todo-item 
-                   v-for='item in groceryList'
+        <todo-item v-for='item in groceryList'
                    v-bind:text='item.text'
                    v-bind:key='item.id'>
         </todo-item>

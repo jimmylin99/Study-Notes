@@ -331,7 +331,11 @@ pip install -r requirements.txt
 
 ###### `git fetch`
 
+###### fatal: refusing to merge unrelated histories
 
+```bash
+git pull --allow-unrelated-histories
+```
 
 ### apt 命令
 
@@ -787,6 +791,26 @@ tmux rename-session -t <session-id> <new-name>
 
 窗口分屏等其它特性和配置：[Tmux 使用教程 - 阮一峰的网络日志](http://www.ruanyifeng.com/blog/2019/10/tmux.html)
 
+###### `cp`
+
+```bash
+cp -r dir1 dir2 # copy recursively
+```
+
+###### `systemctl`
+
+Linux中如何启动、重启、停止、重载服务以及检查服务（如 httpd.service Apache）状态
+
+```bash
+systemctl start httpd.service
+systemct lrestart httpd.service
+systemctl stop httpd.service
+systemctl reload httpd.service
+systemctl status httpd.service
+systemct lkill httpd
+systemct llist-unit-files --type=service 列出所有状态
+```
+
 
 
 ### Linux/Unix基本概念
@@ -1053,9 +1077,17 @@ get-filehash -algorithm <algorithm> <filename> # built-in for powershell
 
 ### InfluxDB
 
+#### 查询语句速览
+
+[influxdb的基本使用 - 简书 (jianshu.com)](https://www.jianshu.com/p/721e4ce4c066)
+
 #### Documentation
 
 Root URL of the Doc. [InfluxDB OSS 1.8 Documentation (influxdata.com)](https://docs.influxdata.com/influxdb/v1.8/)
+
+#### 数据迁移
+
+[influxdb基础（五）——数据的备份与恢复（influxd backup/influxd restore）-CSDN博客](https://blog.csdn.net/weixin_36586120/article/details/109481345)
 
 #### CLI
 
@@ -1063,11 +1095,32 @@ Root URL of the Doc. [InfluxDB OSS 1.8 Documentation (influxdata.com)](https://d
 
 #### InfluxQL
 
+##### Notice
+
+* Single quote string field values in the `WHERE` clause. Queries with unquoted string field values or double quoted string field values will not return any data and, in most cases, [will not return an error](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/#common-issues-with-the-where-clause).
+
+* `Insert` (brushEvents is the measurement name) 只要tag和time一致，就可以覆盖fields
+
+  * ```sql
+    insert brushEvents,brushId=6c89f539-71c6-490d-a28d-6c5d84c0ee2f,user=Carol rapid_acc=1,rapid_brake=0,comfort=90 152231
+    0640000000000
+    ```
+
+* `Select` `where` 注意单双引号
+
+  * ```sql
+    select * from brushEvents where time=1522310640000000000 and "user"='Carol'
+    ```
+
+    
+
+
+
 This section introduces InfluxQL, the InfluxDB SQL-like query language for working with data in InfluxDB databases.
 
 [Influx Query Language (InfluxQL) | InfluxDB OSS 1.8 Documentation](https://docs.influxdata.com/influxdb/v1.8/query_language/)
 
-##### Line Protocol
+**Line Protocol**
 
 [InfluxDB line protocol tutorial | InfluxDB OSS 1.8 Documentation](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/)
 
@@ -1076,7 +1129,7 @@ This section introduces InfluxQL, the InfluxDB SQL-like query language for worki
 * field set is a must
 * tag set and timestamp are optional
 
-##### SELECT and FROM clause
+**SELECT and FROM clause**
 
 [Explore data using InfluxQL | InfluxDB OSS 1.8 Documentation](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/)
 
@@ -1090,21 +1143,21 @@ This section introduces InfluxQL, the InfluxDB SQL-like query language for worki
 
 
 
-##### GROUP BY clause
+**GROUP BY clause**
 
 > **Note:** You cannot use `GROUP BY` to group fields.
 
-###### GROUP BY tags
+**GROUP BY tags**
 
-###### GROUP BY time()
+**GROUP BY time()**
 
 [Explore data using InfluxQL | InfluxDB OSS 1.8 Documentation](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/#group-by-time-intervals)
 
-##### INTO clause
+**INTO clause**
 
 [Explore data using InfluxQL | InfluxDB OSS 1.8 Documentation](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/#examples-4)
 
-###### Rename a database
+**Rename a database**
 
 ```sql
 SELECT * INTO "copy_NOAA_water_database"."autogen".:MEASUREMENT FROM "NOAA_water_database"."autogen"./.*/ GROUP BY *
@@ -1112,29 +1165,31 @@ SELECT * INTO "copy_NOAA_water_database"."autogen".:MEASUREMENT FROM "NOAA_water
 
 * `GROUP BY *` here preserves the tags from automatically transforming into fields
 
-##### Other Usage
+**Other Usage**
 
-###### specify a tag with None value
+**specify a tag with None value**
 
-#### [Use a regular expression to specify a tag with no value in the WHERE clause](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/#use-a-regular-expression-to-specify-a-tag-with-no-value-in-the-where-clause)
+###### [Use a regular expression to specify a tag with no value in the WHERE clause](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/#use-a-regular-expression-to-specify-a-tag-with-no-value-in-the-where-clause)
 
 ```sql
 SELECT * FROM "h2o_feet" WHERE "location" !~ /./
 ```
 
-###### show series
+###### Gossip
+
+**show series**
 
 ```sql
 SHOW series
 ```
 
-###### show all keys given a tag key
+**show all keys given a tag key**
 
 ```sql
 SHOW tag values from <measurements> with KEY=<key_name>
 ```
 
-##### Gossip
+**Others**
 
 `service influxdb start` to start influxdb daemon
 
@@ -1248,6 +1303,43 @@ URI只代表资源的实体，不代表它的形式。严格地说，有些网�
 客户端用到的手段，只能是HTTP协议。具体来说，就是HTTP协议里面，四个表示操作方式的动词：GET、POST、PUT、DELETE。它们分别对应四种基本操作：**GET用来获取资源，POST用来新建资源（也可以用于更新资源），PUT用来更新资源，DELETE用来删除资源。**
 
 [RESTful API 设计指南 - 阮一峰](http://www.ruanyifeng.com/blog/2014/05/restful_api.html)
+
+### 如何查看ECDSA的fingerprint
+
+```bash
+ssh-keygen -l -f /etc/ssh/ssh_host_ecdsa_key.pub
+```
+
+### 使用SCP copy files from remote to local with port specified
+
+```bash
+scp -P 24011 -r root@server.acemap.cn:/root/data/influx_backup ./
+```
+
+### NPM
+
+###### 镜像
+
+[npm镜像源管理 - 简书 (jianshu.com)](https://www.jianshu.com/p/66f97cadd1eb)
+
+修改registry地址，比如修改为淘宝镜像源。
+ `npm set registry https://registry.npm.taobao.org/`
+ 如果有一天你肉身FQ到国外，用不上了，用rm命令删掉它
+ `npm config rm registry`
+
+###### 奇怪问题
+
+ENOTSUP 解决：`npm install -no-bin-links`
+
+### 浏览器调试
+
+###### 强制刷新页面（不使用缓存）
+
+`Ctrl + Shift + R`
+
+###### 浏览器：不使用缓存
+
+`F12` - `网络` - `Disable Cache`
 
 ### 其它名词解释
 

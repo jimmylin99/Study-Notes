@@ -263,7 +263,9 @@ pip install -r requirements.txt
 
 `curl ifconfig.me`
 
-### Git 常用建议
+### [DEPRECATED] Git 常用建议
+
+*See Notion*
 
 ###### `git add`
 
@@ -442,7 +444,7 @@ See [Shell 流程控制 | 菜鸟教程](https://www.runoob.com/linux/linux-shell
 
 
 
-### Linux/Unix 常用命令
+### [DEPRECATED] Linux/Unix 常用命令
 
 ###### slash commands
 
@@ -534,6 +536,8 @@ chgrp group_or_gid file # .. the group of ..
 ```bash
 sudo usermod -a -G groupName userName
 # The -a (append) switch is essential. Otherwise, the user will be removed from any groups, not in the list.
+# 例如添加用户至docker组
+sudo usermod -aG docker $USER
 ```
 
 

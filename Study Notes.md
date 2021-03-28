@@ -109,6 +109,14 @@ now `oh-my-posh3` is also configured using [Themes | Oh my Posh 3](https://ohmyp
 
 * ~~[Windows 终端 Powerline 设置 | Microsoft Docs](https://docs.microsoft.com/zh-cn/windows/terminal/tutorials/powerline-setup) 配置 `posh-git` and `oh-my-posh`~~
 
+### Windows防火墙
+
+[如何利用手机访问电脑本地的localhost？ - 简书 (jianshu.com)](https://www.jianshu.com/p/d0d23926df04)
+
+### Windows静态ip和路由器端口转发
+
+特定wifi>属性>ip分配：不要DHCP，选手动，掩码长度一般24
+
 ### Windows 修改注册表
 
 ```
@@ -554,11 +562,15 @@ sudo usermod -aG docker $USER
 who -r # 查询系统处于什么运行级别
 ```
 
-###### `uname`
+###### `uname`, `hostname`
 
-print system information
+`uname` print system information
 
 * -r内核 -m 32位还是64位 -a所有信息, -n主机名
+
+`hostname` to view hostname
+
+* `hostname <name>` to set hostname
 
 ###### `free`
 
@@ -579,6 +591,8 @@ grep -o 'pattern'
 grep --exclude=\*.sh -rnw . -e 'pattern'
 grep --include=\*.{c,h} -rnw 'path' -e 'pattern' # only search .c / .h files
 grep --exclude-dir={dir1,dir2,*.dst} -rnw . -e 'p'
+# 不区分大小写 -i 双引号
+grep -i "env"
 ```
 
 [Regular Expression website with explanation and wiki](https://regex101.com/)
@@ -611,6 +625,7 @@ grep --exclude-dir={dir1,dir2,*.dst} -rnw . -e 'p'
 
 ```bash
 find . -maxdepth 1 -name <name>
+find / -iname "*influx*" 2>/dev/null # case-insensitive, general pattern, ignore stderr
 ```
 
 
@@ -815,6 +830,14 @@ systemct lkill httpd
 systemct llist-unit-files --type=service 列出所有状态
 ```
 
+###### `wget`
+
+```bash
+# 实例1：使用wget下载单个文件
+wget http://www.minjieren.com/wordpress-3.1-zh_CN.zip
+# 从网络下载一个文件并保存在当前目录，在下载的过程中会显示进度条，包含（下载完成百分比，已经下载的字节，当前下载速度，剩余下载时间）。
+```
+
 
 
 ### Linux/Unix基本概念
@@ -963,6 +986,10 @@ VMWare 配置：编辑>虚拟网络编辑器
 
 ### Docker
 
+一个不错的入门tutorial：[Docker 入门教程](http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html)
+
+* Docker 有 image文件 + 容器文件
+
 <img src="img/image-20210208151214195.png" alt="image-20210208151214195" style="zoom:50%;" />
 
 > 图源[Docker 架构 | 菜鸟教程](https://www.runoob.com/docker/docker-architecture.html)
@@ -1001,6 +1028,67 @@ It will be mounted to (by default) `/var/lib/docker` `volumes` sub-directories; 
 
 * [Volume | Blog](https://larrylu.blog/using-volumn-to-persist-data-in-container-a3640cc92ce4)
 * [Use volumes | Docker Documentation](https://docs.docker.com/storage/volumes/)
+
+###### 添加或修改port
+
+替换容器，需停止容器
+
+```bash
+$ docker stop A
+$ docker commit A imageA
+$ docker rm A
+$ docker run -d -p 80:80 --name A imageA
+```
+
+###### Redis 容器
+
+这个链接的内容更具体（版本号不是4.0，请更改成所使用的版本号）：[docker 安装部署 redis（配置文件启动） - SegmentFault 思否](https://segmentfault.com/a/1190000014091287)
+
+[redis (docker.com)](https://hub.docker.com/_/redis?tab=description&page=1&ordering=last_updated)
+
+###### docker run 命令解释
+
+docker run等价于docker container run（后者为新命令）
+
+```bash
+# 命令分解
+docker run \
+--rm \ # 退出时删除此容器
+-p 6379:6379 \ # 端口映射 宿主机:容器
+-v $PWD/data:/data:rw \ # 映射数据目录 rw 为读写
+-v $PWD/conf/redis.conf:/etc/redis/redis.conf:ro \ # 挂载配置文件 ro 为readonly
+--privileged=true \ # 给与一些权限
+--name myredis \ # 给容器起个名字
+-d redis redis-server /etc/redis/redis.conf # deamon 运行容器 并使用配置文件启动容器内的 redis-server 
+```
+
+```bash
+# 原型
+docker run [options] image [commands]
+# 所以redis是image，redis-server /etc/redis/redis.conf是command
+```
+
+###### docker常用命令
+
+```bash
+# 进入一个正在运行的容器
+docker exec -it <container> /bin/bash 
+```
+
+```bash
+docker pull <image>
+docker images
+docker ps # docker container ps/ls
+# to view all docker containers (including those being stopped)
+docker ps -a
+
+docker logs <container> # view its error log
+docker inspect <container> # view detailed information
+docker port <container> # view ports
+docker stop/start <container>
+```
+
+
 
 ##### `docker-compose`
 
@@ -1091,7 +1179,17 @@ Root URL of the Doc. [InfluxDB OSS 1.8 Documentation (influxdata.com)](https://d
 
 #### 数据迁移
 
+scp传输例子
+
+```bash
+scp -P 24011 -r root@server.acemap.cn:/tmp/influx_backup ./
+```
+
 [influxdb基础（五）——数据的备份与恢复（influxd backup/influxd restore）-CSDN博客](https://blog.csdn.net/weixin_36586120/article/details/109481345)
+
+上例注释：
+
+可以使用`influxd backup` `influxd restore`， restore的时候如果newdb已存在，需要删除可以用`drop database <name>`
 
 #### CLI
 
@@ -1344,6 +1442,10 @@ ENOTSUP 解决：`npm install -no-bin-links`
 ###### 浏览器：不使用缓存
 
 `F12` - `网络` - `Disable Cache`
+
+### 交互与非交互Shell；login shell
+
+[linux关于bashrc与profile的区别 - 简书 (jianshu.com)](https://www.jianshu.com/p/9d95e5e736da)
 
 ### 其它名词解释
 

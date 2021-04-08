@@ -109,6 +109,14 @@ now `oh-my-posh3` is also configured using [Themes | Oh my Posh 3](https://ohmyp
 
 * ~~[Windows 终端 Powerline 设置 | Microsoft Docs](https://docs.microsoft.com/zh-cn/windows/terminal/tutorials/powerline-setup) 配置 `posh-git` and `oh-my-posh`~~
 
+### 暂停Windows自动更新
+
+Windows Home 可以暂停至多35天，访问settings -> update -> advanced settings
+
+Windows Pro 可以永久暂停
+
+具体参考[How to turn off automatic updates in Windows 10 permanently - YouTube](https://www.youtube.com/watch?v=OYvVtFE7Ufk)
+
 ### Windows防火墙
 
 [如何利用手机访问电脑本地的localhost？ - 简书 (jianshu.com)](https://www.jianshu.com/p/d0d23926df04)
@@ -838,7 +846,11 @@ wget http://www.minjieren.com/wordpress-3.1-zh_CN.zip
 # 从网络下载一个文件并保存在当前目录，在下载的过程中会显示进度条，包含（下载完成百分比，已经下载的字节，当前下载速度，剩余下载时间）。
 ```
 
+###### `exec`
 
+run the command by replacing the current process (do not need to create a new process)
+
+if there is no command specified, for example `exec 1>&2` it means the redirection will take effect for the current shell
 
 ### Linux/Unix基本概念
 
@@ -1088,7 +1100,22 @@ docker port <container> # view ports
 docker stop/start <container>
 ```
 
+* To view all docker containers (including those being stopped)
 
+  `docker ps -a`
+
+  可以使用下面两种方法：
+
+  * 方法 1：
+    使用 --rm 选项，当容器被终止运行时会自动销毁：
+
+    `docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d --rm mysql:latest`
+
+  * 方法 2：
+    在启动当前使用的命令之前先停止容器，然后显式地删除它：
+
+    `docker stop <container name>`
+    `docker rm <container name>`
 
 ##### `docker-compose`
 

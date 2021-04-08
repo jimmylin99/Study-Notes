@@ -76,7 +76,7 @@ typora-copy-images-to: img
 
 ### HTTP 首部 (HTTP Header)
 
-##### Auhorization
+##### Authorization
 
 `Authorization: <type> <credentials>`
 

@@ -131,6 +131,18 @@ SSL/TLS是在TCP/IP协议组中属于应用层协议（but not neatly fit into O
 
    More about digital signature: [理解数字证书及制作过程 - (rootdeep.github.io)](https://rootdeep.github.io/posts/ssl/)
 
+一些关于攻击https的问题：
+
+1. 如果证书被劫持（很容易，因为证书是公开的），并且把公钥替换成黑客自行生成的公钥（黑客有自己生成的密钥了），不就可以伪装了吗？
+   * naive 证书有hash值，改变公钥，hash会变，进一步改变hash，由于整个证书是CA用它自己的密钥加密的，内容变了（无论是公钥还是hash），当客户端用CA的公钥解密（一般浏览器都会有可信CA的公钥），得到的会是乱码
+   * 小结：证书内容不可变，因为证书的数字摘要用的是CA的私钥
+2. 如果冒充服务器向CA申请证书呢？
+   * 几乎不可以，CA会验证域名对应的信息，包括管理邮箱验证
+3. 如果证书被劫持（easy），我也不改变公钥，我就装作是服务器发给客户端呢？
+   * 客户端可能会信你，但是那又如何，你又不知道私钥，所以客户端通过CA里的公钥加密后的session key又不能被你解密，session key如果不对，后面的对称加密和解密得到的也会是乱码
+
+所以https还是很安全的，但是如果客户端将一个假的CA（黑客自行创建的）添加到受信任列表，那就没办法了，所以不要信任任何不知名的CA（知名的CA都会随浏览器等软件一起发行）
+
 客户端（浏览器）因数字证书问题而导致的可能错误提示：
 
 1. "Not Trusted for this Website": possibly hijacked by hacker; the certificate is self-signed

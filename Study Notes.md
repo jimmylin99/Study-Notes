@@ -976,6 +976,14 @@ sudo usermod -a -G groupName userName
 # The -a (append) switch is essential. Otherwise, the user will be removed from any groups, not in the list.
 ```
 
+##### Remove User from Group
+
+For (at least) Debian, this works (after re-login)
+
+```bash
+gpasswd -d user group
+```
+
 
 
 ### 虚拟机(mainly VMWare)
@@ -1096,6 +1104,7 @@ docker ps -a
 
 docker logs <container> # view its error log
 docker inspect <container> # view detailed information
+docker inspect <container> | grep -i "ipaddress" # show ipaddress
 docker port <container> # view ports
 docker stop/start <container>
 ```
@@ -1204,9 +1213,19 @@ get-filehash -algorithm <algorithm> <filename> # built-in for powershell
 
 Root URL of the Doc. [InfluxDB OSS 1.8 Documentation (influxdata.com)](https://docs.influxdata.com/influxdb/v1.8/)
 
+#### 数据导出
+
+csv, 当无密码时，且在本机上执行导出时
+
+```sql
+influx -database ‘database_name’ -execute ‘SELECT * FROM table_name where time > now() - 2d’ -format csv >> test.csv
+```
+
+
+
 #### 数据迁移
 
-scp传输例子
+scp传输例子（在linux上操作，下载远端/tmp到本机上./）
 
 ```bash
 scp -P 24011 -r root@server.acemap.cn:/tmp/influx_backup ./
